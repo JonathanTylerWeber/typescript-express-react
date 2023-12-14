@@ -2,7 +2,7 @@ import express, {Request, Response} from 'express';
 
 const app = express()
 
-app.get('/ping', (req: Request, res: Response) => {
+app.get('/api/v1/ping', (req: Request, res: Response) => {
     res.send({
         data: "pong"
     })
