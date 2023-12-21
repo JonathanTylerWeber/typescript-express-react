@@ -21,4 +21,13 @@ npm i
 npm start
 ```
 
+## Front-end Application (fe-app)
+
+The front-end application is built using TypeScript and React. To run the front-end application, navigate to the `fe-app` directory and execute the following npm commands:
+
+```
+npm i
+npm run dev
+```
+
 
