@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import './App.css';
 import { User } from './models/User';
 
@@ -6,6 +6,7 @@ function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -28,19 +29,33 @@ function App() {
     fetchUsers();
   }, []);
 
+  // Filter users based on search query
+  const filteredUsers = useMemo(() => {
+    console.log("hello filter")
+    return users.filter(user =>
+      user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [users, searchQuery]);
+
   return (
     <main>
+      <input
+        type="text"
+        placeholder="Search users by name..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       {loading && <div>Loading users...</div>}
       {error && <div>Error: {error}</div>}
-      {users.length > 0 && (
-        <div>
-          <h2>Users:</h2>
-          <ul>
-            {users.map(user => (
-              <li key={user.id}>{`${user.firstName} ${user.lastName} (${user.email})`}</li>
-            ))}
-          </ul>
-        </div>
+      {filteredUsers.length > 0 ? (
+        <ul>
+          {filteredUsers.map((user) => (
+            <li key={user.id}>{`${user.firstName} ${user.lastName} (${user.email})`}</li>
+          ))}
+        </ul>
+      ) : (
+        <div>No users found</div>
       )}
     </main>
   );
