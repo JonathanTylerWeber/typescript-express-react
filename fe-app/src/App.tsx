@@ -39,25 +39,50 @@ function App() {
   }, [users, searchQuery]);
 
   return (
-    <main>
-      <input
-        type="text"
-        placeholder="Search users by name..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      {loading && <div>Loading users...</div>}
-      {error && <div>Error: {error}</div>}
-      {filteredUsers.length > 0 ? (
-        <ul>
-          {filteredUsers.map((user) => (
-            <li key={user.id}>{`${user.firstName} ${user.lastName} (${user.email})`}</li>
-          ))}
-        </ul>
-      ) : (
-        <div>No users found</div>
-      )}
-    </main>
+    <div className='page-container'>
+      <div className="header">
+          <header className="header__inner">
+              <h1 className="header__title">List of Users</h1>
+              <p className="header__description">This is a list of current users</p>
+          </header>
+      </div>
+      <div className="main">
+        <main className="main__inner">
+          <input
+            type="text"
+            placeholder="Filter Users"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {loading && <div>Loading users...</div>}
+          {error && <div>Error: {error}</div>}
+          {filteredUsers.length > 0 ? (
+            <table className="table-grid">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {filteredUsers.map((user) => (
+                      <tr key={user.id}>
+                          <td>{user.id}</td>
+                          <td>{user.firstName}</td>
+                          <td>{user.lastName}</td>
+                          <td>{user.email}</td>
+                      </tr>
+                  ))}
+              </tbody>
+          </table>
+          ) : (
+            <div>No users found</div>
+          )}
+        </main>
+      </div>
+    </div>
   );
 }
 
